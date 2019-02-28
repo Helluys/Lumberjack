@@ -13,7 +13,7 @@ public class StatusPanel : MonoBehaviour {
     }
 
     private void Update () {
-        healthText.text = "Health: " + player.statistics.health + "/" + player.statistics.maxHealth;
-        woodText.text = "Wood: " + player.statistics.carriedWood;
+        healthText.text = "Health: " + player.health + "/" + player.statistics.maxHealth;
+        woodText.text = "Wood: " + player.carriedWood;
     }
 }

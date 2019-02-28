@@ -2,8 +2,13 @@
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(AnimationManager))]
-public class Zombeaver : MonoBehaviour {
+public class Zombeaver : MonoBehaviour, IDamageable {
+
     private const string ATTACK = "Attack";
+
+    public event System.EventHandler<Zombeaver> OnDeath;
+
+    public float health { get; private set; }
 
     [SerializeField] private ZombeaverStatistics statistics;
 
@@ -12,7 +17,6 @@ public class Zombeaver : MonoBehaviour {
     private AnimationManager animationManager;
     private bool canSwing = true;
 
-    // Use this for initialization
     private void Start () {
         player = GameManager.instance.player;
         rigidbody = GetComponent<Rigidbody>();
@@ -50,4 +54,12 @@ public class Zombeaver : MonoBehaviour {
         }
     }
 
+    public void Damage (float damage) {
+        health -= damage;
+        if (health < 0f) {
+            health = 0f;
+            OnDeath?.Invoke(this, this);
+            Destroy(gameObject);
+        }
+    }
 }

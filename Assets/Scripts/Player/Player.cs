@@ -5,6 +5,9 @@
 public class Player : MonoBehaviour, IDamageable {
     public PlayerStatistics statistics;
 
+    public float health { get; private set; }
+    public float carriedWood { get; private set; }
+
     [SerializeField] private Collider axeCollider;
 
     private PlayerControl playerMovement;
@@ -12,7 +15,6 @@ public class Player : MonoBehaviour, IDamageable {
     // Start is called before the first frame update
     private void Start () {
         playerMovement = new PlayerControl(this, axeCollider);
-        statistics = Instantiate(statistics);
     }
 
     // Update is called once per frame
@@ -28,10 +30,10 @@ public class Player : MonoBehaviour, IDamageable {
     }
 
     public void Damage (float damage) {
-        statistics.health -= damage;
+        health -= damage;
     }
 
     public void AddWood (float wood) {
-        statistics.carriedWood += wood;
+        carriedWood += wood;
     }
 }
