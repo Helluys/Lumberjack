@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: PlayerStatistics
   m_EditorClassIdentifier: 
   maxHealth: 100
-  health: 100
   movementSpeed: 20
   axeDamage: 10
-  carriedWood: 0

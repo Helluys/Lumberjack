@@ -19,25 +19,28 @@ public class PlayerControl {
         this.axeCollider = axeCollider;
 
         animationManager.OnExit += AnimatorManager_OnExit;
+        player.OnDeath += Player_OnDeath;
     }
 
     public void Update () {
-        // Update translation
-        rigidbody.velocity = GetInputSpeed() * player.statistics.movementSpeed;
+        if (player.isAlive) {
+            // Update translation
+            rigidbody.velocity = GetInputSpeed() * player.statistics.movementSpeed;
 
-        // Update rotation
-        try {
-            rigidbody.MoveRotation(Quaternion.LookRotation(GetTargetedPoint() - rigidbody.transform.position));
-        } catch (InvalidOperationException) {
-            Debug.LogWarning("No point targeted by cursor");
-        }
+            // Update rotation
+            try {
+                rigidbody.rotation = (Quaternion.LookRotation(GetTargetedPoint() - rigidbody.transform.position));
+            } catch (InvalidOperationException) {
+                Debug.LogWarning("No point targeted by cursor");
+            }
 
-        // Trigger jump
-        // TODO
+            // Trigger jump
+            // TODO
 
-        // Trigger axe swing
-        if (Input.GetButtonDown(ATTACK) && canSwing) {
-            TriggerAxeSwing();
+            // Trigger axe swing
+            if (Input.GetButtonDown(ATTACK) && canSwing) {
+                TriggerAxeSwing();
+            }
         }
     }
 
@@ -61,7 +64,6 @@ public class PlayerControl {
         } else {
             throw new InvalidOperationException();
         }
-
         return targetedPoint;
     }
 
@@ -74,5 +76,9 @@ public class PlayerControl {
                 canSwing = true;
             }
         }
+    }
+
+    private void Player_OnDeath (object sender, Player e) {
+        animationManager.animator.SetTrigger("Death");
     }
 }
