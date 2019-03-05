@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -17,6 +18,10 @@ public class GameManager : MonoBehaviour {
     public void EndLevel (bool levelSuccess) {
         levelEndPanel.SetLevelEndConditions(levelSuccess);
         levelEndPanel.gameObject.SetActive(true);
+    }
+
+    public void RestartLevel () {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
 }
