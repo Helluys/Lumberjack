@@ -573,6 +573,11 @@ PrefabInstance:
       propertyPath: levelEndPanel
       value: 
       objectReference: {fileID: 6471882682324651218}
+    - target: {fileID: 1733365743298502496, guid: dce6e0c90e183fd4a95ef289a1de541d,
+        type: 3}
+      propertyPath: winConditionScore
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dce6e0c90e183fd4a95ef289a1de541d, type: 3}
 --- !u!1001 &1735453959695465966

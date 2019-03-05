@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
 
     public float score { get; private set; }
 
+    [SerializeField] private float winConditionScore;
     [SerializeField] private LevelEnd levelEndPanel;
 
     private void Start () {
@@ -26,8 +27,16 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public float GetWinConditionScore () {
+        return winConditionScore;
+    }
+
     public void ModifyScore (float amount) {
         score += amount;
+
+        if (score > winConditionScore) {
+            EndLevel(true);
+        }
     }
 
 }

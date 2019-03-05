@@ -16,6 +16,6 @@ public class StatusPanel : MonoBehaviour {
     private void Update () {
         healthText.text = "Health: " + player.health + "/" + player.statistics.maxHealth;
         woodText.text = "Wood: " + player.carriedWood;
-        scoreText.text = "Score: " + GameManager.instance.score;
+        scoreText.text = "Score: " + GameManager.instance.score + "/" + GameManager.instance.GetWinConditionScore();
     }
 }
