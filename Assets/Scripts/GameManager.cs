@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
     public Player player;
 
+    public float score { get; private set; }
+
     [SerializeField] private LevelEnd levelEndPanel;
 
     private void Start () {
@@ -22,6 +24,10 @@ public class GameManager : MonoBehaviour {
 
     public void RestartLevel () {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ModifyScore (float amount) {
+        score += amount;
     }
 
 }

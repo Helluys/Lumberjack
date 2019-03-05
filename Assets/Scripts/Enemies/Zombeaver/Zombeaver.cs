@@ -48,6 +48,7 @@ public class Zombeaver : MonoBehaviour, IDamageable {
         if (eventName == ATTACK) {
             if ((transform.position - player.transform.position).magnitude < statistics.attackRange) {
                 player.Damage(statistics.damage);
+                GameManager.instance.ModifyScore(-statistics.damage);
                 animationManager.animator.SetTrigger(ATTACK);
             } else
                 canSwing = true;
@@ -56,9 +57,11 @@ public class Zombeaver : MonoBehaviour, IDamageable {
 
     public void Damage (float damage) {
         health -= damage;
+
         if (health < 0f) {
             health = 0f;
             OnDeath?.Invoke(this, this);
+            GameManager.instance.ModifyScore(statistics.score);
             Destroy(gameObject);
         }
     }

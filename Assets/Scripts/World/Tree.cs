@@ -13,6 +13,7 @@ public class Tree : MonoBehaviour, IDamageable {
         health -= damage;
         if (health < 0) {
             GameManager.instance.player.AddWood(wood);
+            GameManager.instance.ModifyScore(wood);
             Destroy(gameObject);
         }
     }
