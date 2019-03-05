@@ -44,7 +44,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 10, y: 2, z: 10}
-  m_Center: {x: 3.259149, y: 1, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &3537723234616562117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,4 +60,4 @@ MonoBehaviour:
   zombeaverPrefab: {fileID: 1042593948971651307, guid: d36dbc79c7ad7b746ba0114e5df8d10d,
     type: 3}
   spawnDelay: 5
-  maxZombeaverCount: 3
+  activationRange: 20
