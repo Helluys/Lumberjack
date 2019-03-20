@@ -2,13 +2,13 @@
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(AnimationManager))]
-public class Zombeaver : MonoBehaviour, IDamageable {
+public class Zombeaver : MonoBehaviour, IDamageable, IKnockable {
 
     private const string ATTACK = "Attack";
 
     public event System.EventHandler<Zombeaver> OnDeath;
 
-    public float health { get; private set; }
+    [SerializeField] private float health;
 
     [SerializeField] private ZombeaverStatistics statistics;
 
@@ -23,19 +23,18 @@ public class Zombeaver : MonoBehaviour, IDamageable {
         animationManager = GetComponent<AnimationManager>();
 
         animationManager.OnExit += AnimatorManager_OnExit;
+
+        health = statistics.maxHealth;
     }
 
     public void Update () {
         Vector3 playerDelta = player.transform.position - transform.position;
 
         // Update translation
-        rigidbody.velocity = playerDelta.normalized * statistics.speed * Mathf.Min(0.5f * playerDelta.magnitude, 1f);
+        rigidbody.AddForce(playerDelta.normalized * statistics.speed * Mathf.Min(0.5f * playerDelta.magnitude, 1f), ForceMode.Force);
 
         // Update rotation
-        rigidbody.MoveRotation(Quaternion.LookRotation(rigidbody.velocity));
-
-        // Trigger jump
-        // TODO
+        rigidbody.AddTorque(Quaternion.LookRotation(rigidbody.velocity).eulerAngles);
 
         // Trigger axe swing
         if (playerDelta.magnitude < statistics.attackRange && canSwing) {
@@ -64,5 +63,9 @@ public class Zombeaver : MonoBehaviour, IDamageable {
             GameManager.instance.ModifyScore(statistics.score);
             Destroy(gameObject);
         }
+    }
+
+    public void KnockBack (Vector3 force) {
+        rigidbody.AddForce(force, ForceMode.Impulse);
     }
 }

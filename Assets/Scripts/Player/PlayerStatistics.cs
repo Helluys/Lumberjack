@@ -6,5 +6,4 @@ public class PlayerStatistics : ScriptableObject {
 
     public float movementSpeed;
 
-    public float axeDamage;
 }

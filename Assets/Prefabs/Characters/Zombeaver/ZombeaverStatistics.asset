@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1becede4efff058438145feaa43a5cfc, type: 3}
   m_Name: ZombeaverStatistics
   m_EditorClassIdentifier: 
+  maxHealth: 100
   speed: 20
   damage: 10
   attackRange: 2

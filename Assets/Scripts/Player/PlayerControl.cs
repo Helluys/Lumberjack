@@ -25,7 +25,7 @@ public class PlayerControl {
     public void Update () {
         if (player.isAlive) {
             // Update translation
-            rigidbody.velocity = GetInputSpeed() * player.statistics.movementSpeed;
+            rigidbody.AddForce (GetInputSpeed() * (player.statistics.movementSpeed - rigidbody.velocity.magnitude), ForceMode.Force);
 
             // Update rotation
             try {
@@ -52,7 +52,8 @@ public class PlayerControl {
 
     private Vector3 GetInputSpeed () {
         Vector2 rawInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        return new Vector3(rawInput.x * Mathf.Sqrt(1f - 0.5f * rawInput.y), 0f, rawInput.y * Mathf.Sqrt(1f - 0.5f * rawInput.x));
+        Debug.Log(rawInput.magnitude);
+        return new Vector3(rawInput.x, 0f, rawInput.y);
     }
 
     private Vector3 GetTargetedPoint () {

@@ -12,6 +12,8 @@ public class Player : MonoBehaviour, IDamageable {
     public float carriedWood { get; private set; }
     public bool isAlive { get; private set; }
 
+    [SerializeField] private Axe axe;
+
     [SerializeField] private Collider axeCollider;
 
     private PlayerControl playerControl;
@@ -31,7 +33,12 @@ public class Player : MonoBehaviour, IDamageable {
     private void OnTriggerEnter (Collider collider) {
         IDamageable damageable = collider.GetComponent<IDamageable>();
         if (damageable != null) {
-            damageable.Damage(statistics.axeDamage);
+            damageable.Damage(axe.damage);
+        }
+
+        IKnockable knockable = collider.GetComponent<IKnockable>();
+        if (knockable != null) {
+            knockable.KnockBack((collider.transform.position - transform.position).normalized * axe.knockBack);
         }
     }
 
