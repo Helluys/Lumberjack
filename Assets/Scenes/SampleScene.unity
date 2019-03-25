@@ -52690,11 +52690,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lumberjack
       objectReference: {fileID: 0}
-    - target: {fileID: 2009677204002870102, guid: c699d12e8ffc9674583eeae982be29af,
-        type: 3}
-      propertyPath: axe.damage
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 2009677204002870096, guid: c699d12e8ffc9674583eeae982be29af,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -52723,12 +52718,12 @@ PrefabInstance:
     - target: {fileID: 2009677204002870096, guid: c699d12e8ffc9674583eeae982be29af,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2009677204002870096, guid: c699d12e8ffc9674583eeae982be29af,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2009677204002870096, guid: c699d12e8ffc9674583eeae982be29af,
         type: 3}
@@ -52743,17 +52738,12 @@ PrefabInstance:
     - target: {fileID: 2009677204002870096, guid: c699d12e8ffc9674583eeae982be29af,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 2009677204002870096, guid: c699d12e8ffc9674583eeae982be29af,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2009677204002870097, guid: c699d12e8ffc9674583eeae982be29af,
-        type: 3}
-      propertyPath: m_Drag
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c699d12e8ffc9674583eeae982be29af, type: 3}

@@ -5,5 +5,7 @@ public class PlayerStatistics : ScriptableObject {
     public float maxHealth;
 
     public float movementSpeed;
+    public float rotationSpeed;
 
+    public float tornadoChargeTime;
 }

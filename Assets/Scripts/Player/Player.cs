@@ -2,9 +2,9 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(AnimationManager))]
 public class Player : MonoBehaviour, IDamageable {
     public PlayerStatistics statistics;
+    public new AnimationManager animation;
 
     public event EventHandler<Player> OnDeath;
 
@@ -13,7 +13,6 @@ public class Player : MonoBehaviour, IDamageable {
     public bool isAlive { get; private set; }
 
     [SerializeField] private Axe axe;
-
     [SerializeField] private Collider axeCollider;
 
     private PlayerControl playerControl;
@@ -30,6 +29,11 @@ public class Player : MonoBehaviour, IDamageable {
         playerControl.Update();
     }
 
+    
+    /// <summary>
+    /// Trigger collider on the player is the Axe collider. It is active only while attacking.
+    /// </summary>
+    /// <param name="collider"></param>
     private void OnTriggerEnter (Collider collider) {
         IDamageable damageable = collider.GetComponent<IDamageable>();
         if (damageable != null) {
