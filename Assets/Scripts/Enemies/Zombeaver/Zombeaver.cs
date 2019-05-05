@@ -34,7 +34,8 @@ public class Zombeaver : MonoBehaviour, IDamageable, IKnockable {
         rigidbody.AddForce(playerDelta.normalized * statistics.speed * Mathf.Min(0.5f * playerDelta.magnitude, 1f), ForceMode.Force);
 
         // Update rotation
-        rigidbody.AddTorque(Quaternion.LookRotation(rigidbody.velocity).eulerAngles);
+        if (rigidbody.velocity.magnitude > 0f)
+            rigidbody.AddTorque(Quaternion.LookRotation(rigidbody.velocity).eulerAngles);
 
         // Trigger axe swing
         if (playerDelta.magnitude < statistics.attackRange && canSwing) {
@@ -45,8 +46,15 @@ public class Zombeaver : MonoBehaviour, IDamageable, IKnockable {
 
     private void AnimatorManager_OnExit (string eventName) {
         if (eventName == ATTACK) {
-            if ((transform.position - player.transform.position).magnitude < statistics.attackRange) {
-                player.Damage(statistics.damage);
+            Vector3 playerDelta = player.transform.position - transform.position;
+
+            if (playerDelta.magnitude < statistics.attackRange) {
+                player.Damage(new HitData() {
+                    damage = statistics.damage,
+                    direction = playerDelta.normalized,
+                    knockback = statistics.knockback
+                });
+
                 GameManager.instance.ModifyScore(-statistics.damage);
                 animationManager.animator.SetTrigger(ATTACK);
             } else
@@ -54,8 +62,9 @@ public class Zombeaver : MonoBehaviour, IDamageable, IKnockable {
         }
     }
 
-    public void Damage (float damage) {
-        health -= damage;
+    public void Damage (HitData hitData) {
+        health -= hitData.damage;
+        rigidbody.AddForce(hitData.knockback * hitData.direction, ForceMode.Impulse);
 
         if (health < 0f) {
             health = 0f;

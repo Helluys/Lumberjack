@@ -7,4 +7,5 @@ public class ZombeaverStatistics : ScriptableObject {
     public float damage;
     public float attackRange;
     public float score;
+    public float knockback;
 }

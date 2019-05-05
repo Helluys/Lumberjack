@@ -5,6 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDamageable {
     public PlayerStatistics statistics;
     public new AnimationManager animation;
+    public Axe axe;
+    [SerializeField] private Collider axeCollider;
 
     public event EventHandler<Player> OnDeath;
 
@@ -12,13 +14,12 @@ public class Player : MonoBehaviour, IDamageable {
     public float carriedWood { get; private set; }
     public bool isAlive { get; private set; }
 
-    [SerializeField] private Axe axe;
-    [SerializeField] private Collider axeCollider;
-
-    private PlayerControl playerControl;
+    [SerializeField] private PlayerControl playerControl;
+    private new Rigidbody rigidbody;
 
     private void Start () {
-        playerControl = new PlayerControl(this, axeCollider);
+        playerControl.Setup(this, axeCollider);
+        rigidbody = GetComponent<Rigidbody>();
 
         health = statistics.maxHealth;
         carriedWood = 0f;
@@ -28,7 +29,6 @@ public class Player : MonoBehaviour, IDamageable {
     private void Update () {
         playerControl.Update();
     }
-
     
     /// <summary>
     /// Trigger collider on the player is the Axe collider. It is active only while attacking.
@@ -37,22 +37,23 @@ public class Player : MonoBehaviour, IDamageable {
     private void OnTriggerEnter (Collider collider) {
         IDamageable damageable = collider.GetComponent<IDamageable>();
         if (damageable != null) {
-            damageable.Damage(axe.damage);
-        }
-
-        IKnockable knockable = collider.GetComponent<IKnockable>();
-        if (knockable != null) {
-            knockable.KnockBack((collider.transform.position - transform.position).normalized * axe.knockBack);
+            damageable.Damage(new HitData() {
+                damage = axe.damage,
+                direction = (collider.transform.position - transform.position).normalized,
+                knockback = axe.knockBack
+            });
         }
     }
 
-    public void Damage (float damage) {
+    public void Damage (HitData hitData) {
         if (isAlive) {
-            health -= damage;
+            health -= hitData.damage;
+            rigidbody.AddForce(hitData.knockback * hitData.direction, ForceMode.Impulse);
 
             if (health <= 0f) {
                 health = 0f;
                 isAlive = false;
+                rigidbody.isKinematic = true;
                 OnDeath?.Invoke(this, this);
                 GameManager.instance.EndLevel(false);
             }
@@ -61,5 +62,11 @@ public class Player : MonoBehaviour, IDamageable {
 
     public void AddWood (float wood) {
         carriedWood += wood;
+    }
+
+    public void DepositWood(WoodStockpile stockpile) {
+        float depositedWood = stockpile.DepositWood(carriedWood);
+        Debug.Log("Deposited wood " + depositedWood);
+        carriedWood -= depositedWood;
     }
 }

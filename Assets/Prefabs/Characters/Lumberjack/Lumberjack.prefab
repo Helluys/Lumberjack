@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 688724308}
   - component: {fileID: 688724311}
   - component: {fileID: 688724310}
-  - component: {fileID: 688724309}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -78,19 +77,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &688724309
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 688724307}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &544409706391831772
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +244,6 @@ GameObject:
   - component: {fileID: 2009677203908792886}
   - component: {fileID: 2009677203908792883}
   - component: {fileID: 2009677203908792880}
-  - component: {fileID: 2009677203908792881}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -326,20 +311,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &2009677203908792881
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2009677203908792887}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2009677204002870103
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,6 +321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2009677204002870096}
   - component: {fileID: 2009677204002870097}
+  - component: {fileID: 691613552222761589}
   - component: {fileID: 2009677204002870102}
   m_Layer: 0
   m_Name: Lumberjack
@@ -387,8 +359,22 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!136 &691613552222761589
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009677204002870103}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &2009677204002870102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,7 +391,43 @@ MonoBehaviour:
   animation: {fileID: 631256851}
   axe:
     damage: 50
-    knockBack: 10
+    knockBack: 20
     range: 1
     speed: 1
+    slamRadius: 2
   axeCollider: {fileID: 2009677203036627730}
+  playerControl:
+    groundedDistance: 0.3
+    jumpCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 40.98203
+        outSlope: 40.98203
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.06438455
+      - serializedVersion: 3
+        time: 0.35
+        value: 5
+        inSlope: -0.21068652
+        outSlope: -0.21068652
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.1377535
+        outWeight: 0.24482583
+      - serializedVersion: 3
+        time: 0.5
+        value: 0
+        inSlope: -47.76808
+        outSlope: -47.76808
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.052068826
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4

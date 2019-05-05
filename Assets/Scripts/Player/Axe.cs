@@ -5,5 +5,5 @@ public class Axe {
     public float knockBack;
     public float range;
     public float speed;
-    
+    public float slamRadius;
 }
