@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 [Serializable]
 public class PlayerControl {
-    private const string AXE_SWING = "AxeSwing";
-    private const string TORNADO = "Tornado";
-    private const string AXE_SLAM = "AxeSlam";
 
     private const string ATTACK = "Attack";
     private const string USE = "Use";
     private const string JUMP = "Jump";
 
-    private const string ATTACK_SPEED = "AttackSpeed";
-
     private Player player;
     private Rigidbody rigidbody;
-    private Collider axeCollider;
-    private bool canSwing = true;
 
     [SerializeField] private float groundedDistance;
     [SerializeField] private AnimationCurve jumpCurve;
@@ -26,15 +19,10 @@ public class PlayerControl {
     private bool attackLoading;
     private float attackButtonDownTime;
 
-    private List<IUsable> usablesInRange = new List<IUsable>();
-    private IUsable closestUsable;
-
-    public void Setup (Player player, Collider axeCollider) {
+    public void Setup (Player player) {
         this.player = player;
         rigidbody = player.GetComponent<Rigidbody>();
-        this.axeCollider = axeCollider;
 
-        player.animation.OnExit += AnimatorManager_OnExit;
         player.OnDeath += Player_OnDeath;
     }
 
@@ -57,21 +45,19 @@ public class PlayerControl {
                 TriggerJump();
             }
 
-            // Trigger axe swing
-            if (Input.GetButtonDown(ATTACK) && canSwing) {
-                attackLoading = true;
+            // Record click time
+            if (Input.GetButtonDown(ATTACK)) {
                 attackButtonDownTime = Time.time;
             }
 
-            if (Input.GetButtonUp(ATTACK) && canSwing && attackLoading) {
-                attackLoading = false;
-
+            // Trigger attacks
+            if (Input.GetButtonUp(ATTACK)) {
                 if (!grounded) {
-                    TriggerSlam();
+                    player.combat.TriggerSlam();
                 } else if (Time.time - attackButtonDownTime > player.statistics.tornadoChargeTime) {
-                    TriggerTornado();
+                    player.combat.TriggerTornado();
                 } else {
-                    TriggerAxeSwing();
+                    player.combat.TriggerAxeSwing();
                 }
             }
 
@@ -88,31 +74,11 @@ public class PlayerControl {
         player.animation.animator.SetFloat("speedZ", localVelocity.z);
     }
 
-    private void TriggerSlam() {
-        player.animation.animator.SetFloat(ATTACK_SPEED, player.axe.speed);
-        player.animation.animator.SetTrigger(AXE_SLAM);
-        canSwing = false;
-    }
-
-    private void TriggerAxeSwing () {
-        axeCollider.enabled = true;
-        player.animation.animator.SetFloat(ATTACK_SPEED, player.axe.speed);
-        player.animation.animator.SetTrigger(AXE_SWING);
-        canSwing = false;
-    }
-
-    private void TriggerTornado () {
-        axeCollider.enabled = true;
-        player.animation.animator.SetFloat(ATTACK_SPEED, player.axe.speed);
-        player.animation.animator.SetTrigger(TORNADO);
-        canSwing = false;
-    }
-
     private void TriggerJump () {
         player.StartCoroutine(Jump());
     }
 
-    private IEnumerator Jump() {
+    private IEnumerator Jump () {
         // Animate jump
         bool ended = false;
         float startTime = Time.time;
@@ -144,34 +110,8 @@ public class PlayerControl {
         } else {
             throw new InvalidOperationException();
         }
-        
+
         return targetedPoint;
-    }
-
-    private void AnimatorManager_OnExit (string eventName) {
-        if (eventName == AXE_SWING || eventName == TORNADO) {
-            axeCollider.enabled = false;
-            canSwing = true;
-        } else if (eventName == AXE_SLAM) {
-            axeCollider.enabled = false;
-            canSwing = true;
-
-            ISet<GameObject> hitObjects = new HashSet<GameObject>();
-            foreach (Collider col in Physics.OverlapSphere(player.transform.position, player.axe.slamRadius)) {
-                hitObjects.Add(col.gameObject.GetRootParent());
-            }
-
-            foreach (GameObject hitObject in hitObjects) {
-                IDamageable damageable = hitObject.GetComponentInParent<IDamageable>();
-                if (hitObject != player.gameObject && damageable != null) {
-                    damageable.Damage(new HitData() {
-                        damage = player.axe.damage * 1.5f,
-                        direction = Vector3.ProjectOnPlane((hitObject.transform.position - player.transform.position), Vector3.up),
-                        knockback = player.axe.knockBack * 1.5f
-                    });
-                }
-            }
-        }
     }
 
     private void Player_OnDeath (object sender, Player e) {

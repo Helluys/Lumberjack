@@ -8,14 +8,16 @@ using UnityEngine;
 public class AnimationManager : MonoBehaviour {
 
     /// <summary>
-    /// This event is trigger by all Animation events names AnimationEvent with a string parameter that will be passed as the argument of the event.
+    /// This event is triggered by all Animation events named AnimationEvent with a string parameter that will be passed as the argument of the event.
     /// </summary>
     public event Action<string> OnAnimationEvent;
 
     /// <summary>
-    /// This event is trigger by all Animation events names AnimationEvent with a string parameter that will be passed as the argument of the event.
+    /// These events are triggered on enter and exit of clips that have a ClipTrigger attached to them
     /// </summary>
     public event Action<string> OnEnter, OnExit;
+
+    public string currentState { get; private set; } = "";
 
     public Animator animator { get; private set; }
 
@@ -34,11 +36,16 @@ public class AnimationManager : MonoBehaviour {
     }
 
     private void AnimatorTrigger_OnEnter (string clipName) {
+        currentState = clipName;
+
         if (OnEnter != null)
             OnEnter(clipName);
     }
 
     private void AnimatorTrigger_OnExit (string clipName) {
+        if (clipName.Equals(currentState))
+            currentState = "";
+
         if (OnExit != null)
             OnExit(clipName);
     }
