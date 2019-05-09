@@ -82,6 +82,12 @@ public class PlayerControl {
         }
     }
 
+    public void LateUpdate () {
+        Vector3 localVelocity = player.transform.InverseTransformVector(rigidbody.velocity);
+        player.animation.animator.SetFloat("speedX", localVelocity.x);
+        player.animation.animator.SetFloat("speedZ", localVelocity.z);
+    }
+
     private void TriggerSlam() {
         player.animation.animator.SetFloat(ATTACK_SPEED, player.axe.speed);
         player.animation.animator.SetTrigger(AXE_SLAM);
@@ -108,7 +114,6 @@ public class PlayerControl {
 
     private IEnumerator Jump() {
         // Animate jump
-        Debug.Log("Jumping");
         bool ended = false;
         float startTime = Time.time;
         float startHeight = rigidbody.position.y;
@@ -133,11 +138,13 @@ public class PlayerControl {
         Vector3 targetedPoint;
         Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+
         if (groundPlane.Raycast(mouseRay, out float enter)) {
             targetedPoint = mouseRay.GetPoint(enter);
         } else {
             throw new InvalidOperationException();
         }
+        
         return targetedPoint;
     }
 

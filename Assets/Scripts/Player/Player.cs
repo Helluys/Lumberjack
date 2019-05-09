@@ -29,7 +29,10 @@ public class Player : MonoBehaviour, IDamageable {
     private void Update () {
         playerControl.Update();
     }
-    
+
+    private void LateUpdate () {
+        playerControl.LateUpdate();    
+    }
     /// <summary>
     /// Trigger collider on the player is the Axe collider. It is active only while attacking.
     /// </summary>
