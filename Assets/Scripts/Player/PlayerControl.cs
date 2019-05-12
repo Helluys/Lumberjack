@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerControl {
 
     private const string ATTACK = "Attack";
+    private const string ATTACK_SECONDARY = "AttackSecondary";
     private const string USE = "Use";
     private const string JUMP = "Jump";
 
@@ -59,6 +60,11 @@ public class PlayerControl {
                 } else {
                     player.combat.TriggerAxeSwing();
                 }
+            }
+
+            // Trigger secondary attack
+            if (Input.GetButtonDown(ATTACK_SECONDARY)) {
+                player.combat.TriggerKick();
             }
 
             // Trigger use

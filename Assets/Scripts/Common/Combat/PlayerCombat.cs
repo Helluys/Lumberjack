@@ -8,6 +8,7 @@ public class PlayerCombat {
     private const string AXE_SWING = "AxeSwing";
     private const string TORNADO = "Tornado";
     private const string AXE_SLAM = "AxeSlam";
+    private const string AXE_KICK = "AxeKick";
 
     private const string ATTACK_SPEED = "AttackSpeed";
 
@@ -40,6 +41,13 @@ public class PlayerCombat {
         }
     }
 
+    public void TriggerKick() {
+        if (player.animation.currentState.Equals("Idle")) {
+            player.animation.animator.SetFloat(ATTACK_SPEED, player.axe.speed);
+            player.animation.animator.SetTrigger(AXE_KICK);
+        }
+    }
+
     private void AnimatorManager_OnExit (string eventName) {
         if (eventName.Equals(AXE_SLAM)) {
             ISet<GameObject> hitObjects = new HashSet<GameObject>();
@@ -61,12 +69,34 @@ public class PlayerCombat {
     }
 
     private void Axe_AxeHit (object sender, IDamageable damageable) {
-        if ((object) damageable != player) {
-            damageable.Damage(new HitData() {
-                damage = player.axe.damage,
-                knockback = player.axe.knockBack,
-                direction = (damageable.gameObject.transform.position - player.axe.transform.position).normalized
-            });
+        switch (player.animation.currentState) {
+            case AXE_SWING:
+                if ((object) damageable != player) {
+                    damageable.Damage(new HitData() {
+                        damage = player.axe.damage,
+                        knockback = player.axe.knockBack / 2f,
+                        direction = (damageable.gameObject.transform.position - player.axe.transform.position).normalized
+                    });
+                }
+                break;
+            case TORNADO:
+                if ((object) damageable != player) {
+                    damageable.Damage(new HitData() {
+                        damage = player.axe.damage * 2f,
+                        knockback = player.axe.knockBack,
+                        direction = (damageable.gameObject.transform.position - player.axe.transform.position).normalized
+                    });
+                }
+                break;
+            case AXE_KICK:
+                if ((object) damageable != player) {
+                    damageable.Damage(new HitData() {
+                        damage = player.axe.damage / 10f,
+                        knockback = player.axe.knockBack * 3f,
+                        direction = (damageable.gameObject.transform.position - player.axe.transform.position).normalized
+                    });
+                }
+                break;
         }
     }
 }
