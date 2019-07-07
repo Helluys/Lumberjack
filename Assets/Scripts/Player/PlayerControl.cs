@@ -81,6 +81,7 @@ public class PlayerControl {
     }
 
     private void TriggerJump () {
+        player.animation.animator.SetTrigger("Jump");
         player.StartCoroutine(Jump());
     }
 
@@ -102,8 +103,9 @@ public class PlayerControl {
     }
 
     private Vector3 GetInputSpeed () {
+        // Convert raw input (square) to normalized input (circle)
         Vector2 rawInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        return new Vector3(rawInput.x, 0f, rawInput.y);
+        return new Vector3(rawInput.x * Mathf.Sqrt(1f - 0.5f * rawInput.y * rawInput.y), 0f, rawInput.y * Mathf.Sqrt(1f - 0.5f * rawInput.x * rawInput.x));
     }
 
     private Vector3 GetTargetedPoint () {
