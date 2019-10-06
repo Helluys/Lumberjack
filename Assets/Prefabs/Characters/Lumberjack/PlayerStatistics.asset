@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PlayerStatistics
   m_EditorClassIdentifier: 
   maxHealth: 100
-  movementSpeed: 120
+  movementSpeed: 50
   rotationSpeed: 1
   tornadoChargeTime: 1

@@ -7,7 +7,7 @@ public class Player : MonoBehaviour, IDamageable {
     public PlayerCombat combat;
     public Axe axe;
     public new AnimationManager animation;
-    [SerializeField] private Transform axeHolder;
+    [SerializeField] private Transform axeHolder = null;
 
     public event EventHandler<Player> OnDeath;
 
@@ -15,7 +15,7 @@ public class Player : MonoBehaviour, IDamageable {
     public float carriedWood { get; private set; }
     public bool isAlive { get; private set; }
 
-    [SerializeField] private PlayerControl playerControl;
+    [SerializeField] private PlayerControl playerControl = null;
     private new Rigidbody rigidbody;
 
     private void Start () {

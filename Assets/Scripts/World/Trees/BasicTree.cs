@@ -7,12 +7,12 @@ public class BasicTree : MonoBehaviour, IDamageable {
 
     private const float FALLING_TORQUE = 100f;
 
-    [SerializeField] private float health;
-    [SerializeField] private float wood;
-    [SerializeField] private int fallenDivisions;
-    [SerializeField] private GameObject fallenTreePrefab;
-    [SerializeField] private AnimationCurve fallCurve;
-    [SerializeField] private float fallingHitRange;
+    [SerializeField] private float health = 0f;
+    [SerializeField] private float wood = 0f;
+    [SerializeField] private int fallenDivisions = 0;
+    [SerializeField] private GameObject fallenTreePrefab = null;
+    [SerializeField] private AnimationCurve fallCurve = null;
+    [SerializeField] private float fallingHitRange = 0f;
 
     private new Rigidbody rigidbody;
 

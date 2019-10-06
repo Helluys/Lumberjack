@@ -1,26 +1,25 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(AnimationManager))]
 public class Zombeaver : MonoBehaviour, IDamageable, IKnockable {
 
     private const string ATTACK = "Attack";
 
     public event System.EventHandler<Zombeaver> OnDeath;
 
-    [SerializeField] private float health;
-
-    [SerializeField] private ZombeaverStatistics statistics;
+    [SerializeField] private AnimationManager animationManager = null;
+    [SerializeField] private float health = 0f;
+    [SerializeField] private ZombeaverStatistics statistics = null;
 
     private Player player;
     private new Rigidbody rigidbody;
-    private AnimationManager animationManager;
     private bool canSwing = true;
+
+    private float currentSpeed = 0f;
 
     private void Start () {
         player = GameManager.instance.player;
         rigidbody = GetComponent<Rigidbody>();
-        animationManager = GetComponent<AnimationManager>();
 
         animationManager.OnExit += AnimatorManager_OnExit;
 
@@ -28,16 +27,20 @@ public class Zombeaver : MonoBehaviour, IDamageable, IKnockable {
     }
 
     public void Update () {
+        animationManager.animator.SetFloat("Speed", currentSpeed);
+    }
+
+    public void FixedUpdate () {
         Vector3 playerDelta = player.transform.position - transform.position;
 
         // Update translation
-        rigidbody.AddForce(playerDelta.normalized * statistics.speed * Mathf.Min(0.5f * playerDelta.magnitude, 1f), ForceMode.Force);
-
+        currentSpeed = statistics.speed * Mathf.Min(0.5f * playerDelta.magnitude, 1f);
+        transform.position += currentSpeed * Time.fixedDeltaTime * playerDelta.normalized;
+        
         // Update rotation
-        if (rigidbody.velocity.magnitude > 0f)
-            rigidbody.AddTorque(Quaternion.LookRotation(rigidbody.velocity).eulerAngles);
+        transform.rotation = Quaternion.LookRotation(playerDelta);
 
-        // Trigger axe swing
+        // Trigger attack
         if (playerDelta.magnitude < statistics.attackRange && canSwing) {
             animationManager.animator.SetTrigger(ATTACK);
             canSwing = false;

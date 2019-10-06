@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour {
 
     public float score { get; private set; }
 
-    [SerializeField] private float winConditionScore;
-    [SerializeField] private LevelEnd levelEndPanel;
+    [SerializeField] private float winConditionScore = 0f;
+    [SerializeField] private LevelEnd levelEndPanel = null;
 
     private void Start () {
         if (instance == null)

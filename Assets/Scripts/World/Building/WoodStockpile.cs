@@ -2,11 +2,11 @@
 
 public class WoodStockpile : Building, IUsable {
 
-    [SerializeField] private float maxWood;
+    [SerializeField] private float maxWood = 0f;
 
     public float wood { get; private set; }
 
-    [SerializeField] private float _range;
+    [SerializeField] private float _range = 0f;
     public float range { get { return _range; } }
 
     public float DepositWood (float amount) {

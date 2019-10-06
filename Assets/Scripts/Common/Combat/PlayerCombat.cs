@@ -58,6 +58,7 @@ public class PlayerCombat {
             foreach (GameObject hitObject in hitObjects) {
                 IDamageable damageable = hitObject.GetComponentInParent<IDamageable>();
                 if (hitObject != player.gameObject && damageable != null) {
+                    Debug.Log("Slam hit " + damageable);
                     damageable.Damage(new HitData() {
                         damage = player.axe.damage * 1.5f,
                         knockback = player.axe.knockBack * 1.5f,
@@ -72,6 +73,7 @@ public class PlayerCombat {
         switch (player.animation.currentState) {
             case AXE_SWING:
                 if ((object) damageable != player) {
+                    Debug.Log("Swing hit " + damageable);
                     damageable.Damage(new HitData() {
                         damage = player.axe.damage,
                         knockback = player.axe.knockBack / 2f,
@@ -81,6 +83,7 @@ public class PlayerCombat {
                 break;
             case TORNADO:
                 if ((object) damageable != player) {
+                    Debug.Log("Tornado hit " + damageable);
                     damageable.Damage(new HitData() {
                         damage = player.axe.damage * 2f,
                         knockback = player.axe.knockBack,
@@ -90,6 +93,7 @@ public class PlayerCombat {
                 break;
             case AXE_KICK:
                 if ((object) damageable != player) {
+                    Debug.Log("Kick hit " + damageable);
                     damageable.Damage(new HitData() {
                         damage = player.axe.damage / 10f,
                         knockback = player.axe.knockBack * 3f,

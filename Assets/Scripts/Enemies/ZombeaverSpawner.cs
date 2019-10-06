@@ -8,9 +8,9 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(BoxCollider))]
 public class ZombeaverSpawner : MonoBehaviour {
 
-    [SerializeField] private GameObject zombeaverPrefab;
-    [SerializeField] private float spawnDelay;
-    [SerializeField] private float activationRange;
+    [SerializeField] private GameObject zombeaverPrefab = null;
+    [SerializeField] private float spawnDelay = 0f;
+    [SerializeField] private float activationRange = 0f;
 
     private BoxCollider boxCollider;
     private List<GameObject> spawnedZombeavers = new List<GameObject>();

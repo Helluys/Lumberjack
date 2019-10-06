@@ -2,7 +2,7 @@
 
 public class ClipTrigger : StateMachineBehaviour {
 
-    [SerializeField] private string eventName;
+    [SerializeField] private string eventName = "";
 
     public override void OnStateEnter (Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex) {
         animator.GetBehaviour<AnimatorTrigger>().OnStateEnter(eventName);

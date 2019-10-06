@@ -14,8 +14,8 @@ public class PlayerControl {
     private Player player;
     private Rigidbody rigidbody;
 
-    [SerializeField] private float groundedDistance;
-    [SerializeField] private AnimationCurve jumpCurve;
+    [SerializeField] private float groundedDistance = 0f;
+    [SerializeField] private AnimationCurve jumpCurve = null;
 
     private bool attackLoading;
     private float attackButtonDownTime;

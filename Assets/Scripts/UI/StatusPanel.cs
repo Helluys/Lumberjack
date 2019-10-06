@@ -5,9 +5,9 @@ public class StatusPanel : MonoBehaviour {
 
     private Player player;
 
-    [SerializeField] private Text healthText;
-    [SerializeField] private Text woodText;
-    [SerializeField] private Text scoreText;
+    [SerializeField] private Text healthText = null;
+    [SerializeField] private Text woodText = null;
+    [SerializeField] private Text scoreText = null;
 
     private void Start () {
         player = GameManager.instance.player;
